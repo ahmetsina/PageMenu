@@ -166,7 +166,7 @@ extension CAPSPageMenu {
     // MARK: - Handle Selection Indicator
     func moveSelectionIndicator(_ pageIndex: Int) {
         if pageIndex >= 0 && pageIndex < controllerArray.count {
-            UIView.animate(withDuration: 0.15, animations: { () -> Void in
+          //  UIView.animate(withDuration: 0.15, animations: { () -> Void in
                 var selectionIndicatorWidth : CGFloat = self.selectionIndicatorView.frame.width
                 var selectionIndicatorX : CGFloat = 0.0
                 
@@ -199,7 +199,7 @@ extension CAPSPageMenu {
                         self.menuItems[self.currentPageIndex].titleLabel!.textColor = self.configuration.selectedMenuItemLabelColor
                     }
                 }
-            })
+          //  })
         }
     }
     
@@ -324,7 +324,7 @@ extension CAPSPageMenu {
      
      - parameter index: Index of the page to move to
      */
-    open func moveToPage(_ index: Int) {
+    open func moveToPage(_ index: Int, animated: Bool = true) {
         if index >= 0 && index < controllerArray.count {
             // Update page if changed
             if index != currentPageIndex {
@@ -355,10 +355,15 @@ extension CAPSPageMenu {
             // Move controller scroll view when tapping menu item
             let duration : Double = Double(configuration.scrollAnimationDurationOnMenuItemTap) / Double(1000)
             
-            UIView.animate(withDuration: duration, animations: { () -> Void in
-                let xOffset : CGFloat = CGFloat(index) * self.controllerScrollView.frame.width
-                self.controllerScrollView.setContentOffset(CGPoint(x: xOffset, y: self.controllerScrollView.contentOffset.y), animated: false)
-            })
+            if animated {
+				UIView.animate(withDuration: duration, animations: { () -> Void in
+					let xOffset : CGFloat = CGFloat(index) * self.controllerScrollView.frame.width
+					self.controllerScrollView.setContentOffset(CGPoint(x: xOffset, y: self.controllerScrollView.contentOffset.y), animated: false)
+				})
+			} else {
+				let xOffset : CGFloat = CGFloat(index) * self.controllerScrollView.frame.width
+				self.controllerScrollView.setContentOffset(CGPoint(x: xOffset, y: self.controllerScrollView.contentOffset.y), animated: false)
+			}
         }
     }
 }
